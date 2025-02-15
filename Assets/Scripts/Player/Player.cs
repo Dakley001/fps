@@ -55,7 +55,10 @@ public class Player : NetworkBehaviour
             currentHealth.Value = 0;
             isDead.Value = true;
 
-            DieOnServer();
+            if (!IsHost)
+            {
+                DieOnServer();
+            }
             DieClientRpc();
         }
     }
