@@ -23,6 +23,7 @@ public class PlayerSetup : NetworkBehaviour
         }
         else
         {
+            PlayerUI.Singleton.setPlayer(GetComponent<Player>());
             SetLayerMaskForAllChildren(transform, LayerMask.NameToLayer("Player"));
             sceneCamera = Camera.main;
             if (sceneCamera != null)

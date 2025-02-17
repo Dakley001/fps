@@ -14,5 +14,12 @@ public class PlayerWeapon
     public float shootCoolDownTime = 0.75f;  // 单发模式的冷却时间
     public float recoilForce = 2f;  // 后坐力
 
+    public int maxBullets = 30;
+    public int bullets = 30;
+    public float reloadTime = 2f;
+
+    [HideInInspector]
+    public bool isReloading = false;
+
     public GameObject graphics;
 }

@@ -21,8 +21,6 @@ public class PlayerInput : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         distToGround = GetComponent<Collider>().bounds.extents.y;
-
-        print(distToGround);
     }
 
     // Update is called once per frame

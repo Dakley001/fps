@@ -26,10 +26,14 @@ public class PlayerController : NetworkBehaviour
     private Vector3 lastFramePosition = Vector3.zero;  // 记录上一帧的位置
     private Animator animator;
 
+    private float distToGround = 0f;
+
     private void Start()
     {
         lastFramePosition = transform.position;
         animator = GetComponentInChildren<Animator>();
+
+        distToGround = GetComponent<Collider>().bounds.extents.y;
     }
 
     public void Move(Vector3 _velocity)
@@ -127,6 +131,16 @@ public class PlayerController : NetworkBehaviour
             direction = 7;  // 左
         }
 
+        if (!Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f))
+        {
+            direction = 8;
+        }
+
+        if (GetComponent<Player>().IsDead())
+        {
+            direction = -1;
+        }
+
         animator.SetInteger("direction", direction);
     }
 
@@ -137,9 +151,17 @@ public class PlayerController : NetworkBehaviour
             PerformMovement();
             PerformRotation();
         }
+
+        if (IsLocalPlayer)
+        {
+            PerformAnimation();
+        }
     }
     private void Update()
     {
-        PerformAnimation();
+        if (!IsLocalPlayer)
+        {
+            PerformAnimation();
+        }
     }
 }

@@ -95,4 +95,20 @@ public class WeaponManager : NetworkBehaviour
             }
         }
     }
+
+    public void Reload(PlayerWeapon playerWeapon)
+    {
+        if (playerWeapon.isReloading)  return;
+        playerWeapon.isReloading = true;
+
+        StartCoroutine(ReloadCoroutine(playerWeapon));
+    }
+
+    private IEnumerator ReloadCoroutine(PlayerWeapon playerWeapon)
+    {
+        yield return new WaitForSeconds(playerWeapon.reloadTime);
+
+        playerWeapon.bullets = playerWeapon.maxBullets;
+        playerWeapon.isReloading = false;
+    }
 }

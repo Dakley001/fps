@@ -42,6 +42,17 @@ public class PlayerShooting : NetworkBehaviour
 
         currentWeapon = weaponManager.GetCurrentWeapon();
 
+        //if(Input.GetKeyDown(KeyCode.K))
+        //{
+        //    ShootServerRpc(transform.name, 10);
+        //}
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            weaponManager.Reload(currentWeapon);
+            return;
+        }
+
         if (currentWeapon.shootRate <= 0)  // 单发
         {
             if (Input.GetButtonDown("Fire1") && shootCoolDownTime >= currentWeapon.shootCoolDownTime)
@@ -63,6 +74,10 @@ public class PlayerShooting : NetworkBehaviour
                 CancelInvoke("Shoot");
             }
         }
+    }
+    public void StopShooting()
+    {
+        CancelInvoke("Shoot");
     }
 
     private void OnHit(Vector3 pos, Vector3 normal, HitEffectMaterial material)  // 击中点的特效
@@ -129,6 +144,15 @@ public class PlayerShooting : NetworkBehaviour
 
     private void Shoot()
     {
+        if (currentWeapon.bullets <= 0 || currentWeapon.isReloading) return;
+
+        currentWeapon.bullets--;
+
+        if (currentWeapon.bullets <= 0)
+        {
+            weaponManager.Reload(currentWeapon);
+        }
+
         autoShootCount++;
         float recoilForce = currentWeapon.recoilForce;
 
